@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { EXPENSE_CATEGORIES } from '../utils/constants';
+import { EXPENSE_CATEGORIES } from '../utils/constants.js';
 
 const schema = new Schema({
   expenseName: String,
