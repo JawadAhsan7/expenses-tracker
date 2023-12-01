@@ -7,6 +7,7 @@ import morgan from 'morgan';
 // local imports
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRouter.js';
+import expensesRouter from './routes/expensesRouter.js';
 
 // app object returned by express(), the top level function exported by the express module
 const app = express();
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 // middlewares
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/expenses', expensesRouter);
 
 // dotenv constants
 const PORT = process.env.PORT || 5001;
