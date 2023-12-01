@@ -18,7 +18,10 @@ app.get('/', (req, res) => {
 });
 
 // middlewares
+app.use(express.json()); // to parse application/json (JSON data from forms)
+app.use(express.urlencoded({ extended: true })); // to parse application/x-www-form-urlencoded (encoded URL params)
 app.use(morgan('combined'));
+
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/expenses', expensesRouter);
