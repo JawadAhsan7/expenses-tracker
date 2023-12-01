@@ -26,7 +26,13 @@ app.use('/api/v1/expenses', expensesRouter);
 const PORT = process.env.PORT || 5001;
 const MONGO_URL = process.env.MONGO_URL;
 
-// listen method listens for a connection on the provided port
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+try {
+  mongoose.connect(MONGO_URL);
+
+  // listen method listens for a connection on the provided port
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+} catch (error) {
+
+}
