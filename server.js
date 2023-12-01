@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 });
 
 // middlewares
+app.use(morgan('combined'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/expenses', expensesRouter);
