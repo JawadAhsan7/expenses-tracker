@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRouter.js';
 import expensesRouter from './routes/expensesRouter.js';
+import errorsMiddleware from './middlewares/errorsMiddleware.js';
 
 // app object returned by express(), the top level function exported by the express module
 const app = express();
@@ -25,6 +26,9 @@ app.use(morgan('combined'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/expenses', expensesRouter);
+
+// error handler middleware
+app.use(errorsMiddleware);
 
 // dotenv constants
 const PORT = process.env.PORT || 5001;
