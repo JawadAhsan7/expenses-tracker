@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import User from '../models/User.js';
 import { comparePasswordHash, hashPassword } from '../utils/hashPassword.js';
 import { createJWT } from '../utils/webtoken.js';
+import { BadRequestError, UnauthenticatedError } from '../errors/customErrors.js';
 
 export const register = async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
@@ -18,7 +19,8 @@ export const register = async (req, res) => {
     return res.status(StatusCodes.OK).json({ msg: 'user created' });
   }
 
-  return res.status(StatusCodes.FORBIDDEN).json({ msg: 'user already exists' });
+  throw new BadRequestError('email already exists');
+  
 };
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -27,7 +29,7 @@ export const login = async (req, res) => {
   const isValidUser = user && await comparePasswordHash(password, user.password);
 
   if (!isValidUser) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({ msg: 'invalid credentials' });
+    throw new UnauthenticatedError('invalid credentials');
   }
 
   const token = createJWT({

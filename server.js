@@ -1,8 +1,10 @@
 // npm imports
+import 'express-async-errors'
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+
 
 // local imports
 import authRouter from './routes/authRouter.js';
@@ -42,5 +44,6 @@ try {
     console.log(`Server running on port ${PORT}`);
   });
 } catch (error) {
-
+  console.log(error);
+  process.exit(1);
 }
