@@ -29,5 +29,5 @@ export const login = async (req, res) => {
     return res.status(StatusCodes.UNAUTHORIZED).json({ msg: 'invalid credentials' });
   }
 
-  return res.status(StatusCodes.OK).json({ msg: 'user logged in', user });
+  return res.status(StatusCodes.OK).json({ msg: 'user logged in' });
 };
