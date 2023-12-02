@@ -1,9 +1,10 @@
 // npm imports
-import 'express-async-errors'
+import 'express-async-errors';
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import { query, validationResult, matchedData } from 'express-validator';
 
 
 // local imports
@@ -28,6 +29,19 @@ app.use(morgan('combined'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/expenses', expensesRouter);
+
+// test route
+app.use('/api/v1/test', query('person').notEmpty().escape(), (req, res) => {
+  const result = validationResult(req);
+
+  if (result.isEmpty()) {
+    const data = matchedData(req);
+    return res.send(`Hello ${data.person}`);
+  }
+
+  res.send({ errors: result.array() });
+
+});
 
 // error handler middleware
 app.use(errorsMiddleware);
