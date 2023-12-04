@@ -1,3 +1,4 @@
+import { validateIdParam } from '../middlewares/validationMiddleware.js';
 import { Router } from 'express';
 import {
   createExpense,
@@ -14,7 +15,7 @@ router.route('/')
   .post(createExpense);
 
 router.route('/:expenseId')
-  .get(getSingleExpense)
+  .get(validateIdParam, getSingleExpense)
   .patch(updateExpense)
   .delete(deleteExpense);
 
