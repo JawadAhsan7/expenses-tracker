@@ -19,9 +19,17 @@ export const getSingleExpense = async (req, res) => {
 };
 
 export const updateExpense = async (req, res) => {
-  res.send('updateExpense Controller');
+  const { expenseId } = req.params;
+  const { name, date, amount, category } = req.body;
+  const expense = await Expense.findByIdAndUpdate(expenseId, { name, date, amount, category }, {
+    returnDocument: 'after'
+  });
+
+  res.status(StatusCodes.OK).json({ msg: 'expense updated', expense });
 };
 
 export const deleteExpense = async (req, res) => {
-  res.send('deleteExpense Controller');
+  const { expenseId } = req.params;
+  await Expense.findByIdAndDelete(expenseId);
+  res.status(StatusCodes.OK).json({ msg: 'expense deleted' });
 };
