@@ -2,8 +2,8 @@ import { Schema, model } from 'mongoose';
 import { EXPENSE_CATEGORIES } from '../utils/constants.js';
 
 const schema = new Schema({
-  expenseName: String,
-  time: Date,
+  name: String,
+  date: Date,
   amount: Number,
   category: {
     type: String,
