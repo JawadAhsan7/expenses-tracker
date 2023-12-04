@@ -8,7 +8,8 @@ export const createExpense = async (req, res) => {
 };
 
 export const getAllExpenses = async (req, res) => {
-  res.send('getAllExpenses Controller');
+  const expenses = await Expense.find();
+  res.status(StatusCodes.OK).json({ count: expenses.length, expenses });
 };
 
 export const getSingleExpense = async (req, res) => {
