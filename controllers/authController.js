@@ -20,7 +20,7 @@ export const register = async (req, res) => {
   }
 
   throw new BadRequestError('email already exists');
-  
+
 };
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -37,11 +37,19 @@ export const login = async (req, res) => {
     role: user.role
   });
 
-  res.cookie('jwtToken', token, {
+  res.cookie('token', token, {
     httpOnly: true,
     expires: new Date(Date.now() + 86400000),
     secure: process.env.NODE_ENV === 'production'
   });
 
   return res.status(StatusCodes.OK).json({ msg: 'user logged in' });
+};
+
+export const logout = (req, res) => {
+  res.cookie(token, 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now())
+  });
+  res.status(StatusCodes.OK).json({ msg: 'user logged out' });
 };
