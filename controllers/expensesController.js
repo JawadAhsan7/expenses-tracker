@@ -13,7 +13,9 @@ export const getAllExpenses = async (req, res) => {
 };
 
 export const getSingleExpense = async (req, res) => {
-  res.send('getSingleExpense Controller');
+  const { expenseId } = req.params;
+  const expense = await Expense.findById(expenseId);
+  res.status(StatusCodes.OK).json({ expense });
 };
 
 export const updateExpense = async (req, res) => {
