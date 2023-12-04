@@ -16,7 +16,7 @@ router.route('/')
 
 router.route('/:expenseId')
   .get(validateIdParam, getSingleExpense)
-  .patch(updateExpense)
-  .delete(deleteExpense);
+  .patch(validateIdParam, updateExpense)
+  .delete(validateIdParam, deleteExpense);
 
 export default router;
