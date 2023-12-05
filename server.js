@@ -5,6 +5,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 import { query, validationResult, matchedData } from 'express-validator';
+import cookieParser from 'cookie-parser';
 
 
 // local imports
@@ -16,6 +17,7 @@ import errorsMiddleware from './middlewares/errorsMiddleware.js';
 // app object returned by express(), the top level function exported by the express module
 const app = express();
 
+
 // routes
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -24,6 +26,7 @@ app.get('/', (req, res) => {
 // middlewares
 app.use(express.json()); // to parse application/json (JSON data from forms)
 app.use(express.urlencoded({ extended: true })); // to parse application/x-www-form-urlencoded (encoded URL params)
+app.use(cookieParser());
 app.use(morgan('combined'));
 
 app.use('/api/v1/auth', authRouter);
