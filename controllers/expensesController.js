@@ -3,7 +3,8 @@ import Expense from '../models/Expense.js';
 
 export const createExpense = async (req, res) => {
   const { name, date, amount, category } = req.body;
-  const createdExpense = await Expense.create({ name, date, amount, category });
+  const { userId } = req.user;
+  const createdExpense = await Expense.create({ name, date, amount, category, createdBy: userId });
   res.status(StatusCodes.CREATED).json({ msg: 'expense created', createdExpense });
 };
 

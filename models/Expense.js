@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { EXPENSE_CATEGORIES } from '../utils/constants.js';
 
 const schema = new Schema({
@@ -8,6 +8,10 @@ const schema = new Schema({
   category: {
     type: String,
     enum: Object.values(EXPENSE_CATEGORIES)
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }
 });
 
