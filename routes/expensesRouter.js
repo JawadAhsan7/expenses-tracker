@@ -1,4 +1,5 @@
 import { validateIdParam } from '../middlewares/validationMiddleware.js';
+import { authenticateUser } from '../middlewares/authMiddleware.js';
 import { Router } from 'express';
 import {
   createExpense,
@@ -11,12 +12,12 @@ import {
 const router = Router();
 
 router.route('/')
-  .get(getAllExpenses)
-  .post(createExpense);
+  .get(authenticateUser, getAllExpenses)
+  .post(authenticateUser, createExpense);
 
 router.route('/:expenseId')
-  .get(validateIdParam, getSingleExpense)
-  .patch(validateIdParam, updateExpense)
-  .delete(validateIdParam, deleteExpense);
+  .get(authenticateUser, validateIdParam, getSingleExpense)
+  .patch(authenticateUser, validateIdParam, updateExpense)
+  .delete(authenticateUser, validateIdParam, deleteExpense);
 
 export default router;
