@@ -9,7 +9,7 @@ export const createExpense = async (req, res) => {
 };
 
 export const getAllExpenses = async (req, res) => {
-  const expenses = await Expense.find();
+  const expenses = await Expense.find({ createdBy: req.user.userId });
   res.status(StatusCodes.OK).json({ count: expenses.length, expenses });
 };
 

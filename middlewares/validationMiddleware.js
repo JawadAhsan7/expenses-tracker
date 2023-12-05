@@ -1,6 +1,6 @@
 import { validationResult, body, param } from 'express-validator';
 import User from '../models/User.js';
-import { BadRequestError, NotFoundError } from '../errors/customErrors.js';
+import { BadRequestError, NotFoundError, UnauthenticatedError, UnauthorizedError } from '../errors/customErrors.js';
 import mongoose from 'mongoose';
 import Expense from '../models/Expense.js';
 
@@ -12,6 +12,7 @@ const withValidationErrors = (validateValues) => {
       const errorMessages = errors.array().map((error) => error.msg);
       const firstMessage = errorMessages[0];
       if (firstMessage.startsWith('no expense')) throw new NotFoundError(errorMessages);
+      if (firstMessage.startsWith('not authorized')) throw new UnauthenticatedError('not authorized to access this route');
 
       throw new BadRequestError(errorMessages);
     }
@@ -41,12 +42,17 @@ export const validateLoginUserInput = withValidationErrors([
 ]);
 
 export const validateIdParam = withValidationErrors([
-  param('expenseId').custom(async (value) => {
+  param('expenseId').custom(async (value, { req }) => {
     const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidMongoId) {
       throw new BadRequestError('invalid MongoDB id');
     }
     const expense = await Expense.findById(value);
     if (!expense) throw new NotFoundError(`no expense found with id: ${value}`);
+
+    const isAdmin = req.user.role === 'admin';
+    const isOwner = req.user.userId === expense.createdBy.toString();
+
+    if (!isAdmin && !isOwner) throw new UnauthorizedError('not authorized to access this route');
   })
 ]);
